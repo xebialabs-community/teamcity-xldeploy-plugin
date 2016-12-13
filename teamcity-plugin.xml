@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
+  <info>
+    <name>teamcity-xldeploy-plugin</name>
+    <display-name>XebiaLabs XL Deploy</display-name>
+    <version>@Version@</version>
+    <description>TeamCity XL Deploy plugin</description>
+    <download-url>Plugin download URL</download-url>
+    <email>droberts@xebialabs.com</email>
+    <vendor>
+      <name>XebiaLabs</name>
+      <url>http://www.xebialabs.com</url>
+      <logo>Plugin vendor logo URL</logo>
+    </vendor>
+  </info>
+  <deployment use-separate-classloader="true" />
+</teamcity-plugin>

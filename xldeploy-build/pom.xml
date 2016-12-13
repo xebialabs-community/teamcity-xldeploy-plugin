@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>teamcity-xldeploy-plugin-build</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.3-SNAPSHOT</version>
+  <name>XebiaLabs TeamCity XL Deploy Plugin Build</name>
+
+  <parent>
+    <artifactId>teamcity-xldeploy-plugin</artifactId>
+    <groupId>xebialabs.teamcity.xldeploy</groupId>
+    <version>1.0.3-SNAPSHOT</version>
+  </parent>
+
+  <licenses>
+    <license>
+      <name>MIT license</name>
+      <comments>All source code is under the MIT license.</comments>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <dependencies>
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-plugin-agent</artifactId>
+      <version>1.0.3-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-plugin-common</artifactId>
+      <version>1.0.3-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-plugin-server</artifactId>
+      <version>1.0.3-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+
+        <executions>
+          <execution>
+            <id>make-agent-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>xldeploy-agent</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>plugin-agent-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
+              <outputDirectory>${project.parent.build.directory}</outputDirectory>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>plugin-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

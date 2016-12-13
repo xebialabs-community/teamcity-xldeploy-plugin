@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>teamcity-xldeploy-plugin-server</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.3-SNAPSHOT</version>
+  <name>XebiaLabs TeamCity XL Deploy Plugin Server</name>
+
+  <parent>
+    <artifactId>teamcity-xldeploy-plugin</artifactId>
+    <groupId>xebialabs.teamcity.xldeploy</groupId>
+    <version>1.0.3-SNAPSHOT</version>
+  </parent>
+
+  <licenses>
+    <license>
+      <name>MIT license</name>
+      <comments>All source code is under the MIT license.</comments>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-plugin-common</artifactId>
+      <version>1.0.3-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jetbrains.teamcity</groupId>
+      <artifactId>server-api</artifactId>
+      <version>${teamcity-version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jetbrains.teamcity</groupId>
+      <artifactId>tests-support</artifactId>
+      <version>${teamcity-version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+</project>
