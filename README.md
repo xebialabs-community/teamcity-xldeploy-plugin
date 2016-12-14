@@ -15,4 +15,8 @@
 
 ![screenshot of deploy step](images/teamcity-xldeploy-plugin-2.png)
 
+#### Build parameters ####
+
+![screenshot of deploy step](images/teamcity-xldeploy-plugin-3.png)
+
 Tested on TeamCity 10.0.3.
