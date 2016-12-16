@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.intellij.util.xmlb.annotations.Collection;
+
 import jetbrains.buildServer.RunBuildException;
+import jetbrains.buildServer.xldeploy.agent.XldAgentUtilities;
 import jetbrains.buildServer.xldeploy.common.XldDeployConstants;
 import jetbrains.buildServer.agent.BuildFinishedStatus;
 import jetbrains.buildServer.agent.artifacts.ArtifactsWatcher;
@@ -22,6 +24,7 @@ import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.util.FileUtil;
 import jetbrains.buildServer.util.StringUtil;
 import jetbrains.buildServer.util.StringUtils;
+
 import org.jetbrains.annotations.NotNull;
 
 public class XldDeployBuildService extends BuildServiceAdapter
@@ -49,7 +52,7 @@ public class XldDeployBuildService extends BuildServiceAdapter
   @Override
   public void beforeProcessStarted() throws RunBuildException
   {
-    getLogger().progressMessage("Running XLD Deploy");
+    getLogger().progressMessage("Running XebiaLabs XLD Deploy");
   }
 
   @Override
@@ -130,32 +133,28 @@ public class XldDeployBuildService extends BuildServiceAdapter
     String versionName;
     String environmentId;
 
-    host = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_HOST);
-    port = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_PORT);
-    username = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME);
-    password = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_PASSWORD);
-    applicationName = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_APPLICATION_NAME);
-    versionName = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_VERSION_NAME);
-    environmentId = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_ENVIRONMENT_ID);
 
+    host = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_HOST);
     if (StringUtil.isNotEmpty(host))
     {
         arguments.add("-host");
         arguments.add(host);
     }
 
-    if (StringUtil.isNotEmpty(port))
+    port = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_PORT);    if (StringUtil.isNotEmpty(port))
     {
         arguments.add("-port");
         arguments.add(port);
     }
 
+    username = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME);
     if (StringUtil.isNotEmpty(username))
     {
         arguments.add("-username");
         arguments.add(username);
     }
 
+    password = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_PASSWORD);
     if (StringUtil.isNotEmpty(password))
     {
         arguments.add("-password");
@@ -163,18 +162,22 @@ public class XldDeployBuildService extends BuildServiceAdapter
     }
 
     arguments.add("-f");
-    arguments.add("deploy-package.py");
+    XldAgentUtilities utils = new XldAgentUtilities();
+    arguments.add(utils.getFullScriptPath(this, "scripts/deploy-package.py"));
 
+    applicationName = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_APPLICATION_NAME);
     if (StringUtil.isNotEmpty(applicationName))
     {
         arguments.add(applicationName);
     }
 
+    versionName = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_VERSION_NAME);
     if (StringUtil.isNotEmpty(versionName))
     {
         arguments.add(versionName);
     }
 
+    environmentId = getRunnerParameters().get(XldDeployConstants.SETTINGS_XLDDEPLOY_ENVIRONMENT_ID);
     if (StringUtil.isNotEmpty(environmentId))
     {
         arguments.add(environmentId);

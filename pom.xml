@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>xebialabs.teamcity.xldeploy</groupId>
   <artifactId>teamcity-xldeploy-plugin</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>XebiaLabs TeamCity XL Deploy plugin</name>
   

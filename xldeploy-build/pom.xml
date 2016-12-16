@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>teamcity-xldeploy-plugin-build</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.7-SNAPSHOT</version>
   <name>XebiaLabs TeamCity XL Deploy Plugin Build</name>
 
   <parent>
     <artifactId>teamcity-xldeploy-plugin</artifactId>
     <groupId>xebialabs.teamcity.xldeploy</groupId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.7-SNAPSHOT</version>
   </parent>
 
   <licenses>
@@ -25,17 +25,17 @@
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-plugin-agent</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <version>1.0.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-plugin-common</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <version>1.0.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-plugin-server</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <version>1.0.7-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

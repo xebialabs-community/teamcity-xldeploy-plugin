@@ -10,6 +10,14 @@
             <source>../xldeploy-agent/teamcity-plugin.xml</source>
             <outputDirectory>/</outputDirectory>
         </file>
+        <file>
+            <source>../xldeploy-agent/src/main/resources/scripts/publish-package.py</source>
+            <outputDirectory>/scripts</outputDirectory>
+        </file>
+        <file>
+            <source>../xldeploy-agent/src/main/resources/scripts/deploy-package.py</source>
+            <outputDirectory>/scripts</outputDirectory>
+        </file>
     </files>
     <moduleSets>
         <moduleSet>

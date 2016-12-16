@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.intellij.util.xmlb.annotations.Collection;
 import jetbrains.buildServer.RunBuildException;
+import jetbrains.buildServer.xldeploy.agent.XldAgentUtilities;
 import jetbrains.buildServer.xldeploy.common.XldPublishConstants;
 import jetbrains.buildServer.agent.BuildFinishedStatus;
 import jetbrains.buildServer.agent.artifacts.ArtifactsWatcher;
@@ -129,29 +130,27 @@ public class XldPublishBuildService extends BuildServiceAdapter
     String packagePath;
 
     host = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST);
-    port = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT);
-    username = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME);
-    password = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD);
-    packagePath = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH);
-
     if (StringUtil.isNotEmpty(host))
     {
         arguments.add("-host");
         arguments.add(host);
     }
 
+    port = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT);
     if (StringUtil.isNotEmpty(port))
     {
         arguments.add("-port");
         arguments.add(port);
     }
 
+    username = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME);
     if (StringUtil.isNotEmpty(username))
     {
         arguments.add("-username");
         arguments.add(username);
     }
 
+    password = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD);
     if (StringUtil.isNotEmpty(password))
     {
         arguments.add("-password");
@@ -159,8 +158,10 @@ public class XldPublishBuildService extends BuildServiceAdapter
     }
 
     arguments.add("-f");
-    arguments.add("publish-package.py");
+    XldAgentUtilities utils = new XldAgentUtilities();
+    arguments.add(utils.getFullScriptPath(this, "scripts/publish-package.py"));
 
+    packagePath = getRunnerParameters().get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH);
     if (StringUtil.isNotEmpty(packagePath))
     {
         arguments.add(packagePath);

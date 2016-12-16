@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>teamcity-xldeploy-plugin-common</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.7-SNAPSHOT</version>
   <name>XebiaLabs TeamCity XL Deploy Plugin Common</name>
 
   <parent>
     <artifactId>teamcity-xldeploy-plugin</artifactId>
     <groupId>xebialabs.teamcity.xldeploy</groupId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.7-SNAPSHOT</version>
   </parent>
 
   <licenses>
