@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <name>XebiaLabs TeamCity XL Deploy Plugin Build</name>
+  <artifactId>teamcity-xldeploy-build</artifactId>
+  <packaging>pom</packaging>
+
+  <licenses>
+    <license>
+      <name>MIT license</name>
+      <comments>All source code is under the MIT license.</comments>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>make-agent-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>xldeploy-agent</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>plugin-agent-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
+              <outputDirectory>${project.parent.build.directory}</outputDirectory>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>plugin-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <parent>
+    <groupId>xebialabs.teamcity.xldeploy</groupId>
+    <artifactId>teamcity-xldeploy-plugin</artifactId>
+    <version>1.1.4-SNAPSHOT</version>
+    <relativePath>../teamcity-xldeploy-project</relativePath>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-agent</artifactId>
+      <version>1.1.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-server</artifactId>
+      <version>1.1.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>xebialabs.teamcity.xldeploy</groupId>
+      <artifactId>teamcity-xldeploy-common</artifactId>
+      <version>1.1.4-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+</project>
