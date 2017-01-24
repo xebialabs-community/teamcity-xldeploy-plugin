@@ -3,7 +3,6 @@ package jetbrains.buildServer.xldeploy.server;
 import java.util.HashMap;
 import java.util.Map;
 import jetbrains.buildServer.xldeploy.common.XldPublishConstants;
-import jetbrains.buildServer.xldeploy.server.XldPublishRunTypePropertiesProcessor;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
 import jetbrains.buildServer.serverSide.RunTypeRegistry;

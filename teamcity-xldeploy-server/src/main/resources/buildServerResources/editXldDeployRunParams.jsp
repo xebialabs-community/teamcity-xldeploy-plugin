@@ -7,15 +7,7 @@
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 <jsp:useBean id="constants" class="jetbrains.buildServer.xldeploy.server.XldDeployConstantsBean"/>
 
-<l:settingsGroup title="XL Deploy:Publish">
-
-  <tr id="xlddeployclipath">
-    <th><label for="${constants.xldDeployCliPath}">XL Deploy CLI path: <l:star/></label></th>
-    <td><props:textProperty name="${constants.xldDeployCliPath}" className="longField"/>
-      <span class="error" id="error_${constants.xldDeployCliPath}"></span>
-      <span class="smallNote">Path to XL Deploy CLI executable (cli.sh or cli.cmd))</span>
-    </td>
-  </tr>
+<l:settingsGroup title="XL Deploy:Deploy">
 
   <tr id="xlddeployhost">
     <th><label for="${constants.xldDeployHost}">XL Deploy host: </label></th>
@@ -33,7 +25,7 @@
     </td>
   </tr>
 
-  <tr id="xlddeployusename">
+  <tr id="xlddeployusername">
     <th><label for="${constants.xldDeployUsername}">XL Deploy username: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldDeployUsername}" className="longField"/>
       <span class="error" id="error_${constants.xldDeployUsername}"></span>

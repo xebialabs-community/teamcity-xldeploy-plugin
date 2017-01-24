@@ -5,10 +5,6 @@
 <jsp:useBean id="constants" class="jetbrains.buildServer.xldeploy.server.XldDeployConstantsBean"/>
 
 <div class="parameter">
-  XL Deploy CLI path: <strong><props:displayValue name="${constants.xldDeployCliPath}" emptyValue="not specified"/></strong>
-</div>
-
-<div class="parameter">
   XL Deploy host: <strong><props:displayValue name="${constants.xldDeployHost}" emptyValue="not specified"/></strong>
 </div>
 

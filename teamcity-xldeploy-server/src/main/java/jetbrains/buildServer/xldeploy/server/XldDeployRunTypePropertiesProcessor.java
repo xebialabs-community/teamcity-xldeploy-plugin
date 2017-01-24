@@ -20,13 +20,6 @@ public class XldDeployRunTypePropertiesProcessor implements PropertiesProcessor
   {
     List<InvalidProperty> result = new ArrayList<InvalidProperty>();
 
-    final String xldDeployCliPath = properties.get(XldDeployConstants.SETTINGS_XLDDEPLOY_CLI_PATH);
-    if (PropertiesUtil.isEmptyOrNull(xldDeployCliPath))
-    {
-      result.add(new InvalidProperty(XldDeployConstants.SETTINGS_XLDDEPLOY_CLI_PATH,
-              "XL Deploy CLI path must be specified."));
-    }
-
     final String xldDeployUsername = properties.get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME);
     if (PropertiesUtil.isEmptyOrNull(xldDeployUsername))
     {

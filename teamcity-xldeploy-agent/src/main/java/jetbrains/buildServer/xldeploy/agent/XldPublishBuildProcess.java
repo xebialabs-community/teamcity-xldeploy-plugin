@@ -21,17 +21,17 @@ import okhttp3.Response;
 
 public class XldPublishBuildProcess implements BuildProcess {
 
-	public XldPublishBuildProcess(AgentRunningBuild runningBuild, BuildRunnerContext context) throws RunBuildException {
+    public XldPublishBuildProcess(AgentRunningBuild runningBuild, BuildRunnerContext context) throws RunBuildException {
 
-    	final Map<String, String> runnerParameters = context.getRunnerParameters();
-	
-    	BuildProgressLogger logger = runningBuild.getBuildLogger();
-    	logger.progressStarted("Progress started for XldPublishBuildProcess");
-    	logger.message("Host:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST));
-    	logger.message("Port:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
-    	logger.message("Username:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME));
-    	logger.message("Password:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
-    	logger.message("Package path:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH));
+        final Map<String, String> runnerParameters = context.getRunnerParameters();
+
+        BuildProgressLogger logger = runningBuild.getBuildLogger();
+        logger.progressStarted("Progress started for XldPublishBuildProcess");
+        logger.message("Host:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST));
+        logger.message("Port:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
+        logger.message("Username:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME));
+        logger.message("Password:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
+        logger.message("Package path:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH));
 	
         final OkHttpClient client = new OkHttpClient();
     
@@ -43,9 +43,9 @@ public class XldPublishBuildProcess implements BuildProcess {
                 runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
         
         String urlString = String.format("http://%s:%s/deployit/package/upload/dummy.dar", 
-        	    runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST),
-        	    runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
-        
+                runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST),
+                runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
+
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("fileData", file.getName(),
@@ -62,46 +62,46 @@ public class XldPublishBuildProcess implements BuildProcess {
             Response response = client.newCall(request).execute();
         
             if (response.isSuccessful()) { 
-	            logger.message(response.body().string());
+                logger.message(response.body().string());
             }
             else {
-       	        throw new IOException("Unexpected response code " + response);
+                throw new IOException("Unexpected response code " + response);
             }
         } catch (IOException e) {
-        	logger.message("IOException " + e);
-        	throw new RunBuildException(e);
+            logger.message("IOException " + e);
+            throw new RunBuildException(e);
         }
-	    logger.progressFinished();
+        logger.progressFinished();
 		
 	}
 
-	@Override
-	public void interrupt() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void interrupt() {
+        // TODO Auto-generated method stub
 
-	@Override
-	public boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    }
 
-	@Override
-	public boolean isInterrupted() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isFinished() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public void start() throws RunBuildException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public boolean isInterrupted() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public BuildFinishedStatus waitFor() throws RunBuildException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void start() throws RunBuildException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public BuildFinishedStatus waitFor() throws RunBuildException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

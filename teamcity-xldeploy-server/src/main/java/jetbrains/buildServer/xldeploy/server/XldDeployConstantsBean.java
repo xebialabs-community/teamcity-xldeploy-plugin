@@ -6,12 +6,6 @@ import org.jetbrains.annotations.NotNull;
 public class XldDeployConstantsBean
 {
 
-  @NotNull
-  public String getXldDeployCliPath()
-  {
-    return XldDeployConstants.SETTINGS_XLDDEPLOY_CLI_PATH;
-  }
-
   public String getXldDeployHost()
   {
     return XldDeployConstants.SETTINGS_XLDDEPLOY_HOST;

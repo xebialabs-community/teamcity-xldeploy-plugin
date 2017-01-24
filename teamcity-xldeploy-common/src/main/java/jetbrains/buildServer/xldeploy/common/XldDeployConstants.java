@@ -5,7 +5,6 @@ public interface XldDeployConstants
 
   String RUNNER_TYPE = "XldDeploy";
   String RUNNER_DISPLAY_NAME = "XebiaLabs XLD Deploy";
-  String SETTINGS_XLDDEPLOY_CLI_PATH = "xlddeploy.cli.path"; 
   String SETTINGS_XLDDEPLOY_HOST = "xlddeploy.host";
   String SETTINGS_XLDDEPLOY_PORT = "xlddeploy.port";
   String SETTINGS_XLDDEPLOY_USERNAME = "xlddeploy.username";

@@ -25,7 +25,7 @@
     </td>
   </tr>
 
-  <tr id="xldpublishusename">
+  <tr id="xldpublishusername">
     <th><label for="${constants.xldPublishUsername}">XL Deploy username: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishUsername}" className="longField"/>
       <span class="error" id="error_${constants.xldPublishUsername}"></span>
