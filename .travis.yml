@@ -1,3 +1,4 @@
+language: java
 script:
 - cd teamcity-xldeploy-project
 - mvn clean package
