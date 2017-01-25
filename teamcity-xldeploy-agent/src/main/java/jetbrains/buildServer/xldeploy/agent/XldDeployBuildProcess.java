@@ -1,7 +1,10 @@
 package jetbrains.buildServer.xldeploy.agent;
 
 import java.io.IOException;
+import java.lang.InterruptedException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.json.JSONObject;
 
 import jetbrains.buildServer.RunBuildException;
@@ -26,6 +29,8 @@ public class XldDeployBuildProcess implements BuildProcess {
     String host;
     int port;
     String credential;
+    String scheme;
+    boolean wait;
 
     public XldDeployBuildProcess(AgentRunningBuild runningBuild, BuildRunnerContext context) throws RunBuildException {
 
@@ -45,16 +50,13 @@ public class XldDeployBuildProcess implements BuildProcess {
         credential = Credentials.basic(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME), 
                 runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_PASSWORD));
 
+        scheme = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_HTTPS) == null?"http":"https";
+        wait = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_WAIT) == null?false:true;
+
         String applicationName = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_APPLICATION_NAME);
         String versionName = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_VERSION_NAME);
         String environmentId = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_ENVIRONMENT_ID);
 
-        logger.message(String.format("Host:  %s", host));
-        logger.message(String.format("Port:  %d", port));
-        logger.message(String.format("Application name:  %s", applicationName));
-        logger.message(String.format("Version name:  %s", versionName));
-        logger.message(String.format("Environment id:  %s", environmentId));
-        
         String applicationId = determineApplicationId(applicationName);
         String versionId = String.format("%s/%s", applicationId, versionName);
         String deploymentType = checkDeploymentExists(applicationId, environmentId);
@@ -66,17 +68,38 @@ public class XldDeployBuildProcess implements BuildProcess {
             logger.message("Initial deployment");
             deploymentSpec = prepareInitial(versionId, environmentId);
         }
-        logger.message(deploymentSpec.toString());
 
         deploymentSpec = prepareAutoDeployeds(deploymentSpec);
-        logger.message(deploymentSpec.toString());
 
         deploymentSpec = validate(deploymentSpec);
-        logger.message(deploymentSpec.toString());
 
         taskId = createDeployTask(deploymentSpec);
-        logger.message(taskId);
-        startTask(taskId);
+        logger.message(String.format("Deployment task id is %s", taskId));
+        startTask(taskId); 
+
+        if (wait) {
+            Set<String> exitStates = new HashSet<String>();
+            exitStates.add(XldDeployConstants.SETTINGS_XLDDEPLOY_TASK_STATE_ABORTED);
+            exitStates.add(XldDeployConstants.SETTINGS_XLDDEPLOY_TASK_STATE_EXECUTED);
+            exitStates.add(XldDeployConstants.SETTINGS_XLDDEPLOY_TASK_STATE_FAILED);
+            exitStates.add(XldDeployConstants.SETTINGS_XLDDEPLOY_TASK_STATE_STOPPED);
+
+            try {
+               while (!exitStates.contains(getTaskState(taskId))) {
+                   Thread.sleep(60000);
+               }
+            } catch (InterruptedException e) {
+                logger.message("IOException " + e);
+                throw new RunBuildException(e);
+            }
+
+            String taskState = getTaskState(taskId);
+            if (taskState.equals(XldDeployConstants.SETTINGS_XLDDEPLOY_TASK_STATE_EXECUTED)) {
+                archiveTask(taskId);
+            } else {
+                throw new RunBuildException(String.format("Deployment task %s %s", taskId, taskState));
+            }
+        }       
 
         logger.progressFinished();
 		
@@ -115,7 +138,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private String determineApplicationId(String applicationName) throws RunBuildException {
 
        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -159,7 +182,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private String checkDeploymentExists(String applicationId, String environmentId) throws RunBuildException {
   
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -205,7 +228,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private JSONObject prepareInitial (String versionId, String environmentId) throws RunBuildException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -247,7 +270,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private JSONObject prepareUpdate (String versionId, String deployedApplicationId) throws RunBuildException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -289,7 +312,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private JSONObject prepareAutoDeployeds (JSONObject deploymentSpec) throws RunBuildException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -338,7 +361,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 /* Uncomment when Zendesk 7587, JIRA DEPL-10909 resolved
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -397,7 +420,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private String createDeployTask (JSONObject deploymentSpec) throws RunBuildException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -439,7 +462,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     private void startTask (String taskId) throws RunBuildException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
@@ -483,26 +506,24 @@ public class XldDeployBuildProcess implements BuildProcess {
     private String getTaskState (String taskId) throws RunBuildException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
+                .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("deployit")
                 .addPathSegment("tasks")
                 .addPathSegment("v2")
                 .addPathSegment(taskId)
-                .addPathSegment("start")
                 .build();
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
         JSONObject jsonObject = null;
-        RequestBody requestBody = RequestBody.create(JSON, "{}");
 
         Request request = new Request.Builder()
                 .url(httpUrl)
                 .header("Authorization", credential)
                 .header("Accept", "application/json")
-                .post(requestBody)
+                .get()
                 .build();
 
         Response response = null;
@@ -523,5 +544,47 @@ public class XldDeployBuildProcess implements BuildProcess {
         }
 
         return jsonObject.getString("state");
+    }
+
+    private void archiveTask (String taskId) throws RunBuildException {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme(scheme)
+                .host(host)
+                .port(port)
+                .addPathSegment("deployit")
+                .addPathSegment("tasks")
+                .addPathSegment("v2")
+                .addPathSegment(taskId)
+                .addPathSegment("archive")
+                .build();
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        RequestBody requestBody = RequestBody.create(JSON, "{}");
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("Authorization", credential)
+                .header("Accept", "application/json")
+                .post(requestBody)
+                .build();
+
+        Response response = null;
+
+        try {
+            response = client.newCall(request).execute();
+
+            if (response.isSuccessful()) { 
+                /* noop */
+            } else {
+                throw new IOException("Unexpected response code " + response);
+            }
+        } catch (IOException e) {
+            logger.message("IOException " + e);
+            throw new RunBuildException(e);
+        } finally {
+            response.close();
+        }
     }
 }

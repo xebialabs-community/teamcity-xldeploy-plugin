@@ -10,7 +10,7 @@
 <l:settingsGroup title="XL Deploy:Deploy">
 
   <tr id="xlddeployhost">
-    <th><label for="${constants.xldDeployHost}">XL Deploy host: </label></th>
+    <th><label for="${constants.xldDeployHost}">XL Deploy host: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldDeployHost}" className="longField"/>
       <span class="error" id="error_${constants.xldDeployHost}"></span>
       <span class="smallNote">XL Deploy host</span>
@@ -18,7 +18,7 @@
   </tr>
 
   <tr id="xlddeployport">
-    <th><label for="${constants.xldDeployPort}">XL Deploy port: </label></th>
+    <th><label for="${constants.xldDeployPort}">XL Deploy port: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldDeployPort}" className="longField"/>
       <span class="error" id="error_${constants.xldDeployPort}"></span>
       <span class="smallNote">XL Deploy port</span>
@@ -62,6 +62,22 @@
     <td><props:textProperty name="${constants.xldDeployEnvironmentId}" className="longField"/>
       <span class="error" id="error_${constants.xldDeployEnvironmentId}"></span>
       <span class="smallNote">Environment id (full path)</span>
+    </td>
+  </tr>
+
+  <tr id="xlddeployhttps">
+    <th><label for="${constants.xldDeployHttps}">Use HTTPS?></label></th>
+    <td><props:checkboxProperty name="${constants.xldDeployHttps}"/>
+      <span class="error" id="error_${constants.xldDeployHttps}"></span>
+      <span class="smallNote">Use HTTPS in REST API calls to XL Deploy</span>
+    </td>
+  </tr>
+
+  <tr id="xlddeploywait">
+    <th><label for="${constants.xldDeployWait}">Wait?</label></th>
+    <td><props:checkboxProperty name="${constants.xldDeployWait}"/>
+      <span class="error" id="error_${constants.xldDeployWait}"></span>
+      <span class="smallNote">Wait for XL Deploy to complete the deployment</span>
     </td>
   </tr>
 

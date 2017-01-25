@@ -31,3 +31,11 @@
 <div class="parameter">
   Environment id: <strong><props:displayValue name="${constants.xldDeployEnvironmentId}" emptyValue="not specified"/></strong>
 </div>
+
+<div class="parameter">
+  Use HTTPS: <strong><props:displayValue name="${constants.xldDeployHttps}" emptyValue="false"/></strong>
+</div>
+
+<div class="parameter">
+  Wait for completion: <strong><props:displayValue name="${constants.xldDeployWait}" emptyValue="false"/></strong>
+</div>

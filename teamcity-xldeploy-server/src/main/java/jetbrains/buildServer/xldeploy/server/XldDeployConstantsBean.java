@@ -46,4 +46,14 @@ public class XldDeployConstantsBean
     return XldDeployConstants.SETTINGS_XLDDEPLOY_ENVIRONMENT_ID;
   }
 
+  public String getXldDeployHttps()
+  {
+    return XldDeployConstants.SETTINGS_XLDDEPLOY_HTTPS;
+  }
+
+  public String getXldDeployWait()
+  {
+    return XldDeployConstants.SETTINGS_XLDDEPLOY_WAIT;
+  }
+
 }

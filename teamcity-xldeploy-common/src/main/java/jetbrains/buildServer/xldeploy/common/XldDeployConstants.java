@@ -12,6 +12,12 @@ public interface XldDeployConstants
   String SETTINGS_XLDDEPLOY_APPLICATION_NAME = "xlddeploy.application.name";  
   String SETTINGS_XLDDEPLOY_VERSION_NAME = "xlddeploy.version.name";  
   String SETTINGS_XLDDEPLOY_ENVIRONMENT_ID = "xlddeploy.environment.id";  
+  String SETTINGS_XLDDEPLOY_HTTPS = "xlddeploy.https";  
+  String SETTINGS_XLDDEPLOY_WAIT = "xlddeploy.wait";  
+  String SETTINGS_XLDDEPLOY_TASK_STATE_ABORTED = "ABORTED";  
+  String SETTINGS_XLDDEPLOY_TASK_STATE_EXECUTED = "EXECUTED";  
+  String SETTINGS_XLDDEPLOY_TASK_STATE_FAILED = "FAILED";  
+  String SETTINGS_XLDDEPLOY_TASK_STATE_STOPPED = "STOPPED";  
   String RUNNER_DESCRIPTION = "Deploy package with XL Deploy.";
 
 }
