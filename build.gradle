@@ -1,6 +1,0 @@
-task execMavenPackage(type:Exec) {
- workingDir 'teamcity-xldeploy-project'
- commandLine 'mvn', 'clean', 'package'
-}
-
-

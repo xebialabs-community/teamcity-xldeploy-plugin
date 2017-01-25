@@ -1,5 +1,6 @@
 script:
-- ./gradlew execMavenPackage 
+- cd teamcity-xldeploy-project
+- mvn clean package
 notifications:
   hipchat:
     rooms:
