@@ -4,3 +4,6 @@ out/
 target/
 bin/
 classes/
+pom.xml.new
+pom.xml.save
+.gradle
