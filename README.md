@@ -3,10 +3,9 @@
 #### Installation ####
 
 1. Generate zip file using mvn package from root directory
-2. Copy zip file to TeamCity Data Directory (.BuildServer/plugins)
+2. Copy zip file to TeamCity Data Directory (e.g. ~/.BuildServer/plugins)
 3. Restart TeamCity server
-4. Install XL Deploy CLI on the TeamCity Server's host machine
-5. Configure build steps
+4. Configure build steps
 
 #### Publish step ####
 ![screenshot of publish step](images/teamcity-xldeploy-plugin-1.png)
