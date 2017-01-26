@@ -34,5 +34,10 @@ public class XldPublishConstantsBean
     return XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH;
   }
 
+  public String getXldPublishHttps()
+  {
+    return XldPublishConstants.SETTINGS_XLDPUBLISH_HTTPS;
+  }
+
 }
 

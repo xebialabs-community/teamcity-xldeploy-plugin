@@ -12,6 +12,7 @@ import jetbrains.buildServer.agent.BuildProgressLogger;
 import jetbrains.buildServer.agent.BuildRunnerContext;
 import jetbrains.buildServer.xldeploy.common.XldPublishConstants;
 import okhttp3.Credentials;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -21,56 +22,34 @@ import okhttp3.Response;
 
 public class XldPublishBuildProcess implements BuildProcess {
 
+    BuildProgressLogger logger;
+    OkHttpClient client;
+    String host;
+    int port;
+    String credential;
+    String scheme;
+
     public XldPublishBuildProcess(AgentRunningBuild runningBuild, BuildRunnerContext context) throws RunBuildException {
 
         final Map<String, String> runnerParameters = context.getRunnerParameters();
 
-        BuildProgressLogger logger = runningBuild.getBuildLogger();
+        logger = runningBuild.getBuildLogger();
         logger.progressStarted("Progress started for XldPublishBuildProcess");
-        logger.message("Host:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST));
-        logger.message("Port:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
-        logger.message("Username:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME));
-        logger.message("Password:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
-        logger.message("Package path:  " + runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH));
 	
-        final OkHttpClient client = new OkHttpClient();
+        client = new OkHttpClient();
     
-        MediaType MULTIPART_FORM_DATA = MediaType.parse("multipart/form-data");   
-        
+        host = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST);
+        port = Integer.parseInt(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
+
+        credential = Credentials.basic(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME), 
+                runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
+
+        scheme = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HTTPS) == null?"http":"https";
+
         File file = new File(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH));
         
-        String credential = Credentials.basic(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME), 
-                runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
-        
-        String urlString = String.format("http://%s:%s/deployit/package/upload/dummy.dar", 
-                runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST),
-                runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
+        publishPackage(file);
 
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("fileData", file.getName(),
-                        RequestBody.create(MULTIPART_FORM_DATA, file))
-                .build();
-
-        Request request = new Request.Builder()
-                .url(urlString)
-                .header("Authorization", credential)
-                .post(requestBody)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-        
-            if (response.isSuccessful()) { 
-                logger.message(response.body().string());
-            }
-            else {
-                throw new IOException("Unexpected response code " + response);
-            }
-        } catch (IOException e) {
-            logger.message("IOException " + e);
-            throw new RunBuildException(e);
-        }
         logger.progressFinished();
 		
 	}
@@ -103,5 +82,47 @@ public class XldPublishBuildProcess implements BuildProcess {
     public BuildFinishedStatus waitFor() throws RunBuildException {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    private void publishPackage (File file) throws RunBuildException {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme(scheme)
+                .host(host)
+                .port(port)
+                .addPathSegment("deployit")
+                .addPathSegment("package")
+                .addPathSegment("upload")
+                .addPathSegment("dummy.dar")
+                .build();
+
+        MediaType MULTIPART_FORM_DATA = MediaType.parse("multipart/form-data");   
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("fileData", file.getName(),
+                        RequestBody.create(MULTIPART_FORM_DATA, file))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)   
+                .header("Authorization", credential)
+                .post(requestBody)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+        
+            if (response.isSuccessful()) { 
+                logger.message(String.format("Package published successfully %s", file.getName()));
+            }
+            else {
+                throw new IOException("Unexpected response code " + response);
+            }
+        } catch (IOException e) {
+            logger.message("IOException " + e);
+            throw new RunBuildException(e);
+        }
+
     }
 }

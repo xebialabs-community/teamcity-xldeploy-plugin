@@ -66,7 +66,7 @@
   </tr>
 
   <tr id="xlddeployhttps">
-    <th><label for="${constants.xldDeployHttps}">Use HTTPS?</label></th>
+    <th><label for="${constants.xldDeployHttps}">Use HTTPS</label></th>
     <td><props:checkboxProperty name="${constants.xldDeployHttps}"/>
       <span class="error" id="error_${constants.xldDeployHttps}"></span>
       <span class="smallNote">Use HTTPS in REST API calls to XL Deploy</span>
@@ -74,7 +74,7 @@
   </tr>
 
   <tr id="xlddeploywait">
-    <th><label for="${constants.xldDeployWait}">Wait?</label></th>
+    <th><label for="${constants.xldDeployWait}">Wait</label></th>
     <td><props:checkboxProperty name="${constants.xldDeployWait}"/>
       <span class="error" id="error_${constants.xldDeployWait}"></span>
       <span class="smallNote">Wait for XL Deploy to complete the deployment</span>

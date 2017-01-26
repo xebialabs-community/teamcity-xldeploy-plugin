@@ -24,3 +24,8 @@
   Deployment Archive package path: <strong><props:displayValue name="${constants.xldPublishPackagePath}" emptyValue="not specified"/></strong>
 </div>
 
+<div class="parameter">
+  Use HTTPS: <strong><props:displayValue name="${constants.xldPublishHttps}" emptyValue="false"/></strong>
+</div>
+
+

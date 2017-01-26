@@ -10,6 +10,7 @@ public interface XldPublishConstants
   String SETTINGS_XLDPUBLISH_USERNAME = "xldpublish.username";
   String SETTINGS_XLDPUBLISH_PASSWORD = "xldpublish.password";
   String SETTINGS_XLDPUBLISH_PACKAGE_PATH = "xldpublish.package.path";
+  String SETTINGS_XLDPUBLISH_HTTPS = "xldpublish.https";  
   String RUNNER_DESCRIPTION = "Publish package to XL Deploy";
 
 }

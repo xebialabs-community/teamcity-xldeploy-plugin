@@ -49,5 +49,13 @@
     </td>
   </tr>
 
+  <tr id="xlddeployhttps">
+    <th><label for="${constants.xldPublishHttps}">Use HTTPS</label></th>
+    <td><props:checkboxProperty name="${constants.xldPublishHttps}"/>
+      <span class="error" id="error_${constants.xldPublishHttps}"></span>
+      <span class="smallNote">Use HTTPS in REST API calls to XL Deploy</span>
+    </td>
+  </tr>
+
 </l:settingsGroup>
 
