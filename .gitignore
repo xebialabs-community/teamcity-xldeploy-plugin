@@ -8,3 +8,4 @@ pom.xml.new
 pom.xml.save
 pom.xml.versionsBackup
 .gradle
+supervisord.*
