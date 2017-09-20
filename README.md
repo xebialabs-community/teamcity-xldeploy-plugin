@@ -10,8 +10,8 @@
 
 [teamcity-xldeploy-plugin-travis-image]: https://travis-ci.org/xebialabs-community/teamcity-xldeploy-plugin.svg?branch=master
 [teamcity-xldeploy-plugin-travis-url]: https://travis-ci.org/xebialabs-community/teamcity-xldeploy-plugin
-[teamcity-xldeploy-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/b78313b1eb1b4b058dc4512b4d48c26f
-[teamcity-xldeploy-plugin-codacy-url]: https://www.codacy.com/app/rvanstone/teamcity-xldeploy-plugin
+[teamcity-xldeploy-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/fbc097c70d8d483ea5f0a2aea69bd523
+[teamcity-xldeploy-plugin-codacy-url]: https://www.codacy.com/app/joris-dewinne/teamcity-xldeploy-plugin
 [teamcity-xldeploy-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/teamcity-xldeploy-plugin/badges/gpa.svg
 [teamcity-xldeploy-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/teamcity-xldeploy-plugin
 [teamcity-xldeploy-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
