@@ -4,6 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
        default-autowire="constructor">
   <bean name="XldDeployRunner" class="jetbrains.buildServer.xldeploy.agent.XldDeployAgentBuildRunner" />
+  <bean name="XldPackageRunner" class="jetbrains.buildServer.xldeploy.agent.XldPackageAgentBuildRunner" />
   <bean name="XldPublishRunner" class="jetbrains.buildServer.xldeploy.agent.XldPublishAgentBuildRunner" />
 </beans>
-

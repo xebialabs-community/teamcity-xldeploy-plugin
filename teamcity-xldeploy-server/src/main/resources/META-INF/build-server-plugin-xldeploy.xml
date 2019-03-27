@@ -6,5 +6,6 @@
            default-autowire="constructor">
 
   <bean id="XldDeployRunType" class="jetbrains.buildServer.xldeploy.server.XldDeployRunType"/>
+  <bean id="XldPackageRunType" class="jetbrains.buildServer.xldeploy.server.XldPackageRunType"/>
   <bean id="XldPublishRunType" class="jetbrains.buildServer.xldeploy.server.XldPublishRunType"/>
 </beans>
