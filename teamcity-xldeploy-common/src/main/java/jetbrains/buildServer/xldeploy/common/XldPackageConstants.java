@@ -12,6 +12,7 @@ public interface XldPackageConstants
   String SETTINGS_XLDPACKAGE_APPLICATION_NAME = "xldpackage.application.name";
   String SETTINGS_XLDPACKAGE_VERSION_NAME = "xldpackage.version.name";
   String SETTINGS_XLDPACKAGE_HTTPS = "xldpackage.https";
+  String SETTINGS_XLDPACKAGE_DEPLOYABLES = "xldpackage.deployables";
   String RUNNER_DESCRIPTION = "Package DAR for XL Deploy.";
 
 }

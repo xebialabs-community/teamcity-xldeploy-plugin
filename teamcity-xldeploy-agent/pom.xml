@@ -29,7 +29,7 @@
   <parent>
     <groupId>xebialabs.teamcity.xldeploy</groupId>
     <artifactId>teamcity-xldeploy-plugin</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <relativePath>../teamcity-xldeploy-project</relativePath>
   </parent>
 
@@ -43,7 +43,7 @@
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-common</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

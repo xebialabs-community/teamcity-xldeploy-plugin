@@ -45,4 +45,9 @@ public class XldPackageConstantsBean
     return XldPackageConstants.SETTINGS_XLDPACKAGE_HTTPS;
   }
 
+  public String getXldPackageDeployables()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_DEPLOYABLES;
+  }
+
 }

@@ -3,6 +3,9 @@
 
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 <jsp:useBean id="constants" class="jetbrains.buildServer.xldeploy.server.XldPackageConstantsBean"/>
+<jsp:useBean id="xldPackage" class="jetbrains.buildServer.xldeploy.server.XldPackageBean"/>
+
+<%@ page import="java.util.ArrayList,java.util.List" %>
 
 <div class="parameter">
   XL Deploy host: <strong><props:displayValue name="${constants.xldPackageHost}" emptyValue="not specified"/></strong>
@@ -31,3 +34,8 @@
 <div class="parameter">
   Use HTTPS: <strong><props:displayValue name="${constants.xldPackageHttps}" emptyValue="false"/></strong>
 </div>
+
+<div class="parameter">
+  Deployables: <strong><props:displayValue name="${xldPackage.deployables}"/></strong>
+</div>
+
