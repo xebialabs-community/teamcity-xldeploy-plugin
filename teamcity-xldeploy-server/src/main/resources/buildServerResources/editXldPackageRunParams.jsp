@@ -67,11 +67,58 @@
 
   <tr id="xldpackagedeployables">
     <th><label for="${constants.xldPackageDeployables}">Deployables: <l:star/></label></th>
-    <td><props:textProperty name="${constants.xldPackageDeployables}" className="longField"/>
+    <td><props:textProperty name="${constants.xldPackageDeployables}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageDeployables}"></span>
         <span class="smallNote">Deployables</span>
     </td>
   </tr>
 
-</l:settingsGroup>
+  <tr id="xldpackagetemplates">
+    <th><label for="${constants.xldPackageTemplates}">Templates: <l:star/></label></th>
+    <td><props:textProperty name="${constants.xldPackageTemplates}" className="longField" expandable="true" />
+        <span class="error" id="error_${constants.xldPackageTemplates}"></span>
+        <span class="smallNote">Templates</span>
+    </td>
+  </tr>
 
+  <tr id="xldpackagedependencyresolution">
+    <th><label for="${constants.xldPackageDependencyResolution}">Dependency resolution: <l:star/></label></th>
+    <td><props:textProperty name="${constants.xldPackageDependencyResolution}" className="longField" />
+        <span class="error" id="error_${constants.xldPackageDependencyResolution}"></span>
+        <span class="smallNote">Dependency resolution</span>
+    </td>
+  </tr>
+
+  <tr id="xldpackageapplicationdependencies">
+    <th><label for="${constants.xldPackageApplicationDependencies}">Application dependencies: <l:star/></label></th>
+    <td><props:textProperty name="${constants.xldPackageApplicationDependencies}" className="longField" expandable="true" />
+        <span class="error" id="error_${constants.xldPackageApplicationDependencies}"></span>
+        <span class="smallNote">Application dependencies</span>
+    </td>
+  </tr>
+
+  <tr id="xldpackageboundtemplates">
+    <th><label for="${constants.xldPackageBoundTemplates}">Bound templates: <l:star/></label></th>
+    <td><props:textProperty name="${constants.xldPackageBoundTemplates}" className="longField" expandable="true" />
+        <span class="error" id="error_${constants.xldPackageBoundTemplates}"></span>
+        <span class="smallNote">Bound templates</span>
+    </td>
+  </tr>
+
+  <tr id="xldpackageorchestrator">
+    <th><label for="${constants.xldPackageOrchestrator}">Orchestrator: <l:star/></label></th>
+    <td><props:textProperty name="${constants.xldPackageOrchestrator}" className="longField" expandable="true" />
+        <span class="error" id="error_${constants.xldPackageOrchestrator}"></span>
+        <span class="smallNote">Orchestrator</span>
+    </td>
+  </tr>
+
+  <tr id="xldpackageundeploydependencies">
+    <th><label for="${constants.xldPackageUndeployDependencies}">Undeploy dependencies: <l:star/></label></th>
+    <td><props:textProperty name="${constants.xldPackageUndeployDependencies}" className="longField" expandable="true" />
+        <span class="error" id="error_${constants.xldPackageUndeployDependencies}"></span>
+        <span class="smallNote">Undeploy dependencies</span>
+    </td>
+  </tr>
+
+</l:settingsGroup>

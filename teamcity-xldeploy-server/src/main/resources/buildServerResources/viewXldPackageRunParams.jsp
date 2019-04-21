@@ -3,7 +3,6 @@
 
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 <jsp:useBean id="constants" class="jetbrains.buildServer.xldeploy.server.XldPackageConstantsBean"/>
-<jsp:useBean id="xldPackage" class="jetbrains.buildServer.xldeploy.server.XldPackageBean"/>
 
 <%@ page import="java.util.ArrayList,java.util.List" %>
 
@@ -36,6 +35,29 @@
 </div>
 
 <div class="parameter">
-  Deployables: <strong><props:displayValue name="${xldPackage.deployables}"/></strong>
+  Deployables: <strong><props:displayValue name="${constants.xldPackageDeployables}"/></strong>
 </div>
 
+<div class="parameter">
+  Templates: <strong><props:displayValue name="${constants.xldPackageTemplates}"/></strong>
+</div>
+
+<div class="parameter">
+  Dependency resolution: <strong><props:displayValue name="${constants.xldPackageDependencyResolution}"/></strong>
+</div>
+
+<div class="parameter">
+  Application dependencies: <strong><props:displayValue name="${constants.xldPackageApplicationDependencies}"/></strong>
+</div>
+
+<div class="parameter">
+  Bound templates: <strong><props:displayValue name="${constants.xldPackageBoundTemplates}"/></strong>
+</div>
+
+<div class="parameter">
+  Orchestrator: <strong><props:displayValue name="${constants.xldPackageOrchestrator}"/></strong>
+</div>
+
+<div class="parameter">
+  Undeploy dependencies: <strong><props:displayValue name="${constants.xldPackageUndeployDependencies}"/></strong>
+</div>

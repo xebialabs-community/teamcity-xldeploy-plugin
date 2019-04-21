@@ -48,6 +48,13 @@ public class XldPackageRunTypePropertiesProcessor implements PropertiesProcessor
               "Version name must be specified."));
     }
 
+    final String xldPackageDependencyResolution = properties.get(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION);
+    if (PropertiesUtil.isEmptyOrNull(xldPackageDependencyResolution))
+    {
+      result.add(new InvalidProperty(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION,
+              "Dependency resolution must be specified as LATEST or EXISTING."));
+    }
+
     return result;
   }
 }

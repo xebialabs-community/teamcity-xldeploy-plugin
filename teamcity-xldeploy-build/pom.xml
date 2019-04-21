@@ -58,7 +58,7 @@
   <parent>
     <groupId>xebialabs.teamcity.xldeploy</groupId>
     <artifactId>teamcity-xldeploy-plugin</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <relativePath>../teamcity-xldeploy-project</relativePath>
   </parent>
 
@@ -66,17 +66,17 @@
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-agent</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
     </dependency>
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-server</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
     </dependency>
     <dependency>
       <groupId>xebialabs.teamcity.xldeploy</groupId>
       <artifactId>teamcity-xldeploy-common</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
     </dependency>
   </dependencies>
 

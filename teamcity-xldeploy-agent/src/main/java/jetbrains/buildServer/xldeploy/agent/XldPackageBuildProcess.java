@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -16,7 +18,15 @@ import jetbrains.buildServer.agent.BuildFinishedStatus;
 import jetbrains.buildServer.agent.BuildProcess;
 import jetbrains.buildServer.agent.BuildProgressLogger;
 import jetbrains.buildServer.agent.BuildRunnerContext;
+import jetbrains.buildServer.xldeploy.agent.XldDeploymentPackage;
+import jetbrains.buildServer.xldeploy.agent.XldCustomCharacterEscapeHandler;
 import jetbrains.buildServer.xldeploy.common.XldPackageConstants;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import com.sun.xml.bind.marshaller.DataWriter;
+
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -55,11 +65,18 @@ public class XldPackageBuildProcess implements BuildProcess {
 
         scheme = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_HTTPS) == null?"http":"https";
 
-        applicationName = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_APPLICATION_NAME);
-        versionName = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_VERSION_NAME);
-        deployables = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPLOYABLES);
+        XldDeploymentPackage dp = new XldDeploymentPackage();
+        dp.setApplication(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_APPLICATION_NAME));
+        dp.setVersion(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_VERSION_NAME));
+        dp.setDeployables(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPLOYABLES));
+        dp.setTemplates(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_TEMPLATES));
+        dp.setDependencyResolution(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION));
+        dp.setApplicationDependencies(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_APPLICATION_DEPENDENCIES));
+        dp.setBoundTemplates(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_BOUND_TEMPLATES));
+        dp.setOrchestrator(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_ORCHESTRATOR));
+        dp.setUndeployDependencies(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_UNDEPLOY_DEPENDENCIES));
 
-        packageDar(runningBuild, applicationName, versionName, deployables);
+        packageDar(runningBuild, dp);
 
         logger.progressFinished();
 
@@ -95,16 +112,14 @@ public class XldPackageBuildProcess implements BuildProcess {
         return null;
     }
 
-    private void packageDar(AgentRunningBuild runningBuild, String applicationName, String versionName, String deployables) throws RunBuildException {
+    private void packageDar(AgentRunningBuild runningBuild, XldDeploymentPackage dp) throws RunBuildException {
 
 /*
-    For now, accept the deployables in XML format.
-    TO-DO:  Enlarge the deployables input box on the view and edit JSPs.
-    TO-DO:  Add the package level properties as variables on the view and edit JSPs and in the code below.
+    For now, accept the deployables, templates, applicationDependencies, boundTemplates, and orchestrator in XML format.
     TO-DO:  Dynamically modify the view and edit JSPs to present types and properties as the user builds the package
+    TO-DO:  Modularize this method.
+    TO-DO:  Copy deployment artifacts into the deployment package structure.
 */
-
-        logger.message(String.format("Deployables: %s", deployables));
 
         File agentWorkDir = runningBuild.getWorkingDirectory();
         String agentWorkDirPath = agentWorkDir.getPath();
@@ -113,32 +128,30 @@ public class XldPackageBuildProcess implements BuildProcess {
         File dpWorkDir = new File(String.format("%s/%d/deploymentPackage", agentWorkDirPath, buildId));
         dpWorkDir.mkdirs();
         String dpWorkDirPath = dpWorkDir.getPath();
-        BufferedWriter writer = null;
+
         try {
-            writer = new BufferedWriter(new FileWriter(String.format("%s/deployit-manifest.xml", dpWorkDirPath, buildId)));
-            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-            writer.write(String.format("<udm.DeploymentPackage application=\"%s\" version=\"%s\">\n", applicationName, versionName));
-            writer.write("<application />\n");
-            writer.write("<orchestrator />\n");
-            writer.write("<deployables>\n");
-            writer.write(String.format("%s\n", deployables));
-            writer.write("</deployables>\n");
-            writer.write("<applicationDependencies />\n");
-            writer.write("<dependencyResolution>LATEST</dependencyResolution>\n");
-            writer.write("<undeployDependencies>false</undeployDependencies>\n");
-            writer.write("<templates />\n");
-            writer.write("<boundTemplates />\n");
-            writer.write("</udm.DeploymentPackage>\n");
-            writer.close();
-        } catch (IOException e) {
-            logger.message("IOException " + e);
+            JAXBContext jaxbContext = JAXBContext.newInstance(XldDeploymentPackage.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            try {
+                PrintWriter printWriter = new PrintWriter(new File(String.format("%s/deployit-manifest.xml", dpWorkDirPath, buildId)));
+                DataWriter dataWriter = new DataWriter(printWriter, "UTF-8", new XldCustomCharacterEscapeHandler());
+                jaxbMarshaller.marshal(dp, dataWriter);
+                printWriter.close();
+            } catch (FileNotFoundException e) {
+                logger.message("FileNotFoundException " + e);
+                throw new RunBuildException(e);
+            }
+        } catch (JAXBException e) {
+            logger.message("JAXBException " + e);
             throw new RunBuildException(e);
         }
 
         try {
             File fileToZip = new File(dpWorkDirPath);
             File[] children = fileToZip.listFiles();
-            FileOutputStream fos = new FileOutputStream(String.format("%s/%s-%s.dar", dpWorkDirPath, applicationName, versionName));
+            FileOutputStream fos = new FileOutputStream(String.format("%s/%s-%s.dar", dpWorkDirPath, dp.getApplication(), dp.getVersion()));
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             for (File childFile : children) {
                 zipFile(childFile, childFile.getName(), zipOut);

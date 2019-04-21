@@ -13,6 +13,12 @@ public interface XldPackageConstants
   String SETTINGS_XLDPACKAGE_VERSION_NAME = "xldpackage.version.name";
   String SETTINGS_XLDPACKAGE_HTTPS = "xldpackage.https";
   String SETTINGS_XLDPACKAGE_DEPLOYABLES = "xldpackage.deployables";
+  String SETTINGS_XLDPACKAGE_TEMPLATES = "xldpackage.templates";
+  String SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION = "xldpackage.dependency.resolution";
+  String SETTINGS_XLDPACKAGE_APPLICATION_DEPENDENCIES = "xldpackage.application.dependencies";
+  String SETTINGS_XLDPACKAGE_BOUND_TEMPLATES = "xldpackage.bound.templates";
+  String SETTINGS_XLDPACKAGE_ORCHESTRATOR = "xldpackage.orchestrator";
+  String SETTINGS_XLDPACKAGE_UNDEPLOY_DEPENDENCIES = "xldpackage.undeploy.dependencies";
   String RUNNER_DESCRIPTION = "Package DAR for XL Deploy.";
 
 }

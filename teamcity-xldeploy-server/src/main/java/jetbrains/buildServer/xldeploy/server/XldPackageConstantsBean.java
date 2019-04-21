@@ -50,4 +50,34 @@ public class XldPackageConstantsBean
     return XldPackageConstants.SETTINGS_XLDPACKAGE_DEPLOYABLES;
   }
 
+  public String getXldPackageTemplates()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_TEMPLATES;
+  }
+
+  public String getXldPackageDependencyResolution()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION;
+  }
+
+  public String getXldPackageApplicationDependencies()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_APPLICATION_DEPENDENCIES;
+  }
+
+  public String getXldPackageBoundTemplates()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_BOUND_TEMPLATES;
+  }
+
+  public String getXldPackageOrchestrator()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_ORCHESTRATOR;
+  }
+
+  public String getXldPackageUndeployDependencies()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_UNDEPLOY_DEPENDENCIES;
+  }
+
 }
