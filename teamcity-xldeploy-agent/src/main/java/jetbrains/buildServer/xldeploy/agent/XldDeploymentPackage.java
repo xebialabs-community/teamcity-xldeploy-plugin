@@ -11,6 +11,7 @@ public class XldDeploymentPackage {
     private String application;
     private String version;
     private String deployables;
+    private String artifactLocations;
     private String templates;
     private String dependencyResolution;
     private String applicationDependencies;
@@ -43,6 +44,15 @@ public class XldDeploymentPackage {
 
     public void setDeployables(String deployables) {
         this.deployables = deployables;
+    }
+
+    /* Not an XML Element */
+    public String getArtifactLocations() {
+        return artifactLocations;
+    }
+
+    public void setArtifactLocations(String artifactLocations) {
+        this.artifactLocations = artifactLocations;
     }
 
     @XmlElement

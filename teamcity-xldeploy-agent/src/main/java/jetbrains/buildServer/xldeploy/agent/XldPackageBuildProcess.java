@@ -1,8 +1,8 @@
 package jetbrains.buildServer.xldeploy.agent;
 
-import java.io.BufferedWriter;
+import com.sun.xml.bind.marshaller.DataWriter;
+
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,6 +11,10 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.agent.AgentRunningBuild;
@@ -22,11 +26,6 @@ import jetbrains.buildServer.xldeploy.agent.XldDeploymentPackage;
 import jetbrains.buildServer.xldeploy.agent.XldCustomCharacterEscapeHandler;
 import jetbrains.buildServer.xldeploy.common.XldPackageConstants;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import com.sun.xml.bind.marshaller.DataWriter;
-
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -36,11 +35,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import org.apache.commons.io.FileUtils;
+
 /*
     For now:
     Accept the deployables and templates in XML format.
     Accept the applicationDependencies, boundTemplates, and orchestrators as linebreak-separated lists.
-    TO-DO:  Copy deployment artifacts into the deployment package structure.
 */
 
 public class XldPackageBuildProcess implements BuildProcess {
@@ -73,6 +73,7 @@ public class XldPackageBuildProcess implements BuildProcess {
         dp.setApplication(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_APPLICATION_NAME));
         dp.setVersion(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_VERSION_NAME));
         dp.setDeployables(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPLOYABLES));
+        dp.setArtifactLocations(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_ARTIFACT_LOCATIONS));
         dp.setTemplates(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_TEMPLATES));
         dp.setDependencyResolution(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION));
         dp.setApplicationDependencies(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_APPLICATION_DEPENDENCIES));
@@ -118,10 +119,11 @@ public class XldPackageBuildProcess implements BuildProcess {
 
     private void packageDar(AgentRunningBuild runningBuild, XldDeploymentPackage dp) throws RunBuildException {
 
-        File dpWorkDir = new File(runningBuild.getWorkingDirectory(), String.format("%d/deploymentPackage", runningBuild.getBuildId()));
+        File buildWorkDir = runningBuild.getWorkingDirectory();
+        File dpWorkDir = new File(buildWorkDir, String.format("%d/deploymentPackage", runningBuild.getBuildId()));
         dpWorkDir.mkdirs();
         buildDeploymentManifest(dpWorkDir, dp);
-        copyArtifactsToDpWorkDir(dpWorkDir, dp);
+        copyArtifactsToDpWorkDir(buildWorkDir, dpWorkDir, dp);
         createDeploymentArchive(dpWorkDir, dp);
     }
 
@@ -146,8 +148,21 @@ public class XldPackageBuildProcess implements BuildProcess {
         }
     }
 
-    private void copyArtifactsToDpWorkDir(File dpWorkDir, XldDeploymentPackage dp) {
-        logger.message("TO-DO: Copy artifacts to dpWorkDir");
+    private void copyArtifactsToDpWorkDir(File buildWorkDir, File dpWorkDir, XldDeploymentPackage dp) throws RunBuildException {
+        String artifactLocations = dp.getArtifactLocations();
+        if (artifactLocations != null) {
+            for (String artifactLocation: artifactLocations.split("\n")) {
+                try {
+                    File source = new File(buildWorkDir, artifactLocation.split("=")[1]);
+                    File target = new File(dpWorkDir, artifactLocation.split("=")[0]);
+                    target.mkdir();
+                    FileUtils.copyToDirectory(source, target);
+                } catch (IOException e) {
+                    logger.message("IOException " + e);
+                    throw new RunBuildException(e);
+                }
+            }
+        }
     }
 
     private void createDeploymentArchive(File dpWorkDir, XldDeploymentPackage dp)  throws RunBuildException {
