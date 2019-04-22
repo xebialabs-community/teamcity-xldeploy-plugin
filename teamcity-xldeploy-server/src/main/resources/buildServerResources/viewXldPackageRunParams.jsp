@@ -6,6 +6,8 @@
 
 <%@ page import="java.util.ArrayList,java.util.List" %>
 
+<%-- TO-DO:  Dynamically modify the view and edit JSPs to present types and properties as the user builds the package.  --%>
+
 <div class="parameter">
   XL Deploy host: <strong><props:displayValue name="${constants.xldPackageHost}" emptyValue="not specified"/></strong>
 </div>
@@ -36,6 +38,10 @@
 
 <div class="parameter">
   Deployables: <strong><props:displayValue name="${constants.xldPackageDeployables}"/></strong>
+</div>
+
+<div class="parameter">
+  Artifact locations: <strong><props:displayValue name="${constants.xldPackageArtifactLocations}"/></strong>
 </div>
 
 <div class="parameter">

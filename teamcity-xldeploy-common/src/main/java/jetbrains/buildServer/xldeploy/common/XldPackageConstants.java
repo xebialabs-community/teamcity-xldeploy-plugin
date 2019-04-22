@@ -13,6 +13,7 @@ public interface XldPackageConstants
   String SETTINGS_XLDPACKAGE_VERSION_NAME = "xldpackage.version.name";
   String SETTINGS_XLDPACKAGE_HTTPS = "xldpackage.https";
   String SETTINGS_XLDPACKAGE_DEPLOYABLES = "xldpackage.deployables";
+  String SETTINGS_XLDPACKAGE_ARTIFACT_LOCATIONS = "xldpackage.artifact.locations";
   String SETTINGS_XLDPACKAGE_TEMPLATES = "xldpackage.templates";
   String SETTINGS_XLDPACKAGE_DEPENDENCY_RESOLUTION = "xldpackage.dependency.resolution";
   String SETTINGS_XLDPACKAGE_APPLICATION_DEPENDENCIES = "xldpackage.application.dependencies";

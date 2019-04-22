@@ -7,6 +7,8 @@
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 <jsp:useBean id="constants" class="jetbrains.buildServer.xldeploy.server.XldPackageConstantsBean"/>
 
+<%-- TO-DO:  Dynamically modify the view and edit JSPs to present types and properties as the user builds the package.  --%>
+
 <l:settingsGroup title="XL Deploy:Package">
 
   <tr id="xldpackagehost">
@@ -69,15 +71,23 @@
     <th><label for="${constants.xldPackageDeployables}">Deployables: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPackageDeployables}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageDeployables}"></span>
-        <span class="smallNote">Deployables</span>
+        <span class="smallNote">Deployables as XML</span>
+    </td>
+  </tr>
+
+  <tr id="xldpackageartifactlocations">
+    <th><label for="${constants.xldPackageArtifactLocations}">Artifact locations: </label></th>
+    <td><props:textProperty name="${constants.xldPackageArtifactLocations}" className="longField" expandable="true" />
+      <span class="error" id="error_${constants.xldPackageArtifactLocations}"></span>
+      <span class="smallNote">Artifacts to be included in DAR package</span>
     </td>
   </tr>
 
   <tr id="xldpackagetemplates">
-    <th><label for="${constants.xldPackageTemplates}">Templates: <l:star/></label></th>
+    <th><label for="${constants.xldPackageTemplates}">Templates: </label></th>
     <td><props:textProperty name="${constants.xldPackageTemplates}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageTemplates}"></span>
-        <span class="smallNote">Templates</span>
+        <span class="smallNote">Templates as XML</span>
     </td>
   </tr>
 
@@ -85,39 +95,39 @@
     <th><label for="${constants.xldPackageDependencyResolution}">Dependency resolution: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPackageDependencyResolution}" className="longField" />
         <span class="error" id="error_${constants.xldPackageDependencyResolution}"></span>
-        <span class="smallNote">Dependency resolution</span>
+        <span class="smallNote">Dependency resolution, LATEST or EXISTING</span>
     </td>
   </tr>
 
   <tr id="xldpackageapplicationdependencies">
-    <th><label for="${constants.xldPackageApplicationDependencies}">Application dependencies: <l:star/></label></th>
+    <th><label for="${constants.xldPackageApplicationDependencies}">Application dependencies: </label></th>
     <td><props:textProperty name="${constants.xldPackageApplicationDependencies}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageApplicationDependencies}"></span>
-        <span class="smallNote">Application dependencies</span>
+        <span class="smallNote">Application dependencies, one per line</span>
     </td>
   </tr>
 
   <tr id="xldpackageboundtemplates">
-    <th><label for="${constants.xldPackageBoundTemplates}">Bound templates: <l:star/></label></th>
+    <th><label for="${constants.xldPackageBoundTemplates}">Bound templates: </label></th>
     <td><props:textProperty name="${constants.xldPackageBoundTemplates}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageBoundTemplates}"></span>
-        <span class="smallNote">Bound templates</span>
+        <span class="smallNote">Bound templates, one per line</span>
     </td>
   </tr>
 
   <tr id="xldpackageorchestrator">
-    <th><label for="${constants.xldPackageOrchestrator}">Orchestrator: <l:star/></label></th>
+    <th><label for="${constants.xldPackageOrchestrator}">Orchestrator: </label></th>
     <td><props:textProperty name="${constants.xldPackageOrchestrator}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageOrchestrator}"></span>
-        <span class="smallNote">Orchestrator</span>
+        <span class="smallNote">Orchestrators, one per line</span>
     </td>
   </tr>
 
   <tr id="xldpackageundeploydependencies">
-    <th><label for="${constants.xldPackageUndeployDependencies}">Undeploy dependencies: <l:star/></label></th>
+    <th><label for="${constants.xldPackageUndeployDependencies}">Undeploy dependencies: </label></th>
     <td><props:textProperty name="${constants.xldPackageUndeployDependencies}" className="longField" expandable="true" />
         <span class="error" id="error_${constants.xldPackageUndeployDependencies}"></span>
-        <span class="smallNote">Undeploy dependencies</span>
+        <span class="smallNote">Undeploy dependencies, TRUE or FALSE</span>
     </td>
   </tr>
 

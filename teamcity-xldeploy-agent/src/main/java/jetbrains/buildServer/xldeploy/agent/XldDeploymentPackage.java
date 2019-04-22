@@ -18,24 +18,23 @@ public class XldDeploymentPackage {
     private String orchestrator;
     private String undeployDependencies;
 
+    @XmlAttribute
     public String getApplication() {
         return application;
     }
 
-    @XmlAttribute
     public void setApplication(String application) {
         this.application = application;
     }
 
+    @XmlAttribute
     public String getVersion() {
         return version;
     }
 
-    @XmlAttribute
     public void setVersion(String version) {
         this.version = version;
     }
-
 
     @XmlElement
     public String getDeployables() {
@@ -70,7 +69,15 @@ public class XldDeploymentPackage {
     }
 
     public void setApplicationDependencies(String applicationDependencies) {
-        this.applicationDependencies = applicationDependencies;
+        if (applicationDependencies != null) {
+            StringBuilder xml = new StringBuilder();
+            for (String item: applicationDependencies.split("\n")) {
+                xml.append(String.format("<entry key=\"%s\">%s</entry>\n", item.split("=")[0], item.split("=")[1]));
+            }
+            this.applicationDependencies = xml.toString();
+        } else {
+            this.applicationDependencies = null;
+        }
     }
 
     @XmlElement
@@ -79,7 +86,15 @@ public class XldDeploymentPackage {
     }
 
     public void setBoundTemplates(String boundTemplates) {
-        this.boundTemplates = boundTemplates;
+        if (boundTemplates != null) {
+            StringBuilder xml = new StringBuilder();
+            for (String item: boundTemplates.split("\n")) {
+                xml.append(String.format("<ci ref=\"%s\" />\n", item));
+            }
+            this.boundTemplates = xml.toString();
+        } else {
+            this.boundTemplates = null;
+        }
     }
 
     @XmlElement
@@ -88,7 +103,15 @@ public class XldDeploymentPackage {
     }
 
     public void setOrchestrator(String orchestrator) {
-        this.orchestrator = orchestrator;
+        if (orchestrator != null) {
+            StringBuilder xml = new StringBuilder();
+            for (String item: orchestrator.split("\n")) {
+                xml.append(String.format("<value>%s</value>\n", item));
+            }
+            this.orchestrator = xml.toString();
+        } else {
+            this.orchestrator = null;
+        }
     }
 
     @XmlElement

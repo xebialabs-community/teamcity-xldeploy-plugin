@@ -50,6 +50,11 @@ public class XldPackageConstantsBean
     return XldPackageConstants.SETTINGS_XLDPACKAGE_DEPLOYABLES;
   }
 
+  public String getXldPackageArtifactLocations()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_ARTIFACT_LOCATIONS;
+  }
+
   public String getXldPackageTemplates()
   {
     return XldPackageConstants.SETTINGS_XLDPACKAGE_TEMPLATES;
