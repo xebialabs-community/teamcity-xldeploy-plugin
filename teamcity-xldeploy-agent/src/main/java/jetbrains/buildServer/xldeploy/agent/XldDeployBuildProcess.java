@@ -16,6 +16,7 @@ import jetbrains.buildServer.agent.BuildRunnerContext;
 import jetbrains.buildServer.xldeploy.common.XldDeployConstants;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
+import okhttp3.HttpUrl.Builder;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -47,7 +48,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         host = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_HOST);
         port = Integer.parseInt(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_PORT));
 
-        credential = Credentials.basic(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME), 
+        credential = Credentials.basic(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME),
                 runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_PASSWORD));
 
         scheme = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_HTTPS) == null?"http":"https";
@@ -75,7 +76,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         taskId = createDeployTask(deploymentSpec);
         logger.message(String.format("Deployment task id is %s", taskId));
-        startTask(taskId); 
+        startTask(taskId);
 
         if (wait) {
             Set<String> exitStates = new HashSet<String>();
@@ -99,10 +100,10 @@ public class XldDeployBuildProcess implements BuildProcess {
             } else {
                 throw new RunBuildException(String.format("Deployment task %s %s", taskId, taskState));
             }
-        }       
+        }
 
         logger.progressFinished();
-		
+
     }
 
     @Override
@@ -135,13 +136,17 @@ public class XldDeployBuildProcess implements BuildProcess {
         return null;
     }
 
+    private HttpUrl.Builder getXldBaseUrlBuilder() {
+        return new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("deployit");
+    }
+
     private String determineApplicationId(String applicationName) throws RunBuildException {
 
-       HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+       HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("repository")
                 .addPathSegment("query")
                 .addQueryParameter("type", "udm.Application")
@@ -161,7 +166,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(String.format("{searchResults:%s}", response.body().string()));
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -173,19 +178,15 @@ public class XldDeployBuildProcess implements BuildProcess {
         } finally {
             response.close();
         }
-        
+
         JSONObject jsonItem = (JSONObject) jsonObject.getJSONArray("searchResults").get(0);
 
         return jsonItem.getString("ref");
     }
 
     private String checkDeploymentExists(String applicationId, String environmentId) throws RunBuildException {
-  
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
                 .addPathSegment("exists")
                 .addQueryParameter("application", applicationId)
@@ -201,11 +202,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         JSONObject jsonObject = null;
         Response response = null;
-        
+
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -227,11 +228,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private JSONObject prepareInitial (String versionId, String environmentId) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
                 .addPathSegment("prepare")
                 .addPathSegment("initial")
@@ -248,11 +245,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         JSONObject jsonObject = null;
         Response response = null;
-        
+
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -269,11 +266,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private JSONObject prepareUpdate (String versionId, String deployedApplicationId) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
                 .addPathSegment("prepare")
                 .addPathSegment("update")
@@ -290,11 +283,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         JSONObject jsonObject = null;
         Response response = null;
-        
+
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -311,11 +304,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private JSONObject prepareAutoDeployeds (JSONObject deploymentSpec) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
                 .addPathSegment("prepare")
                 .addPathSegment("deployeds")
@@ -334,11 +323,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         JSONObject jsonObject = null;
         Response response = null;
-        
+
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -360,11 +349,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
 /* Uncomment when Zendesk 7587, JIRA DEPL-10909 resolved
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
                 .addPathSegment("validate")
                 .build();
@@ -382,11 +367,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         JSONObject jsonObject = null;
         Response response = null;
-        
+
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -405,7 +390,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         for (Object deployed : jsonObject.getJSONArray("deployeds")) {
             for (Object validationMessage : ((JSONObject)deployed).getJSONArray("validation-messages")) {
                 error = true;
-                logger.message(((JSONObject)validationMessage).toString();     
+                logger.message(((JSONObject)validationMessage).toString();
             }
         }
 
@@ -419,11 +404,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private String createDeployTask (JSONObject deploymentSpec) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
                 .build();
 
@@ -440,11 +421,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         JSONObject jsonObject = null;
         Response response = null;
-        
+
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -461,11 +442,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private void startTask (String taskId) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("tasks")
                 .addPathSegment("v2")
                 .addPathSegment(taskId)
@@ -488,7 +465,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 /* noop */
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -505,11 +482,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private String getTaskState (String taskId) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("tasks")
                 .addPathSegment("v2")
                 .addPathSegment(taskId)
@@ -531,7 +504,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 jsonObject = new JSONObject(response.body().string());
             } else {
                 throw new IOException("Unexpected response code " + response);
@@ -548,11 +521,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private void archiveTask (String taskId) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("tasks")
                 .addPathSegment("v2")
                 .addPathSegment(taskId)
@@ -575,7 +544,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) { 
+            if (response.isSuccessful()) {
                 /* noop */
             } else {
                 throw new IOException("Unexpected response code " + response);

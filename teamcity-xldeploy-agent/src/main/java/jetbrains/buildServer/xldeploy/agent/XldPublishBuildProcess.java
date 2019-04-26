@@ -13,6 +13,7 @@ import jetbrains.buildServer.agent.BuildRunnerContext;
 import jetbrains.buildServer.xldeploy.common.XldPublishConstants;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
+import okhttp3.HttpUrl.Builder;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -35,23 +36,23 @@ public class XldPublishBuildProcess implements BuildProcess {
 
         logger = runningBuild.getBuildLogger();
         logger.progressStarted("Progress started for XldPublishBuildProcess");
-	
+
         client = new OkHttpClient();
-    
+
         host = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST);
         port = Integer.parseInt(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
 
-        credential = Credentials.basic(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME), 
+        credential = Credentials.basic(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME),
                 runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
 
         scheme = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HTTPS) == null?"http":"https";
 
         File file = new File(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PACKAGE_PATH));
-        
+
         publishPackage(file);
 
         logger.progressFinished();
-		
+
 	}
 
     @Override
@@ -84,19 +85,23 @@ public class XldPublishBuildProcess implements BuildProcess {
         return null;
     }
 
+    private HttpUrl.Builder getXldBaseUrlBuilder() {
+        return new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("deployit");
+    }
+
     private void publishPackage (File file) throws RunBuildException {
 
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("deployit")
+        HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("package")
                 .addPathSegment("upload")
                 .addPathSegment("dummy.dar")
                 .build();
 
-        MediaType MULTIPART_FORM_DATA = MediaType.parse("multipart/form-data");   
+        MediaType MULTIPART_FORM_DATA = MediaType.parse("multipart/form-data");
 
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -105,15 +110,15 @@ public class XldPublishBuildProcess implements BuildProcess {
                 .build();
 
         Request request = new Request.Builder()
-                .url(httpUrl)   
+                .url(httpUrl)
                 .header("Authorization", credential)
                 .post(requestBody)
                 .build();
 
         try {
             Response response = client.newCall(request).execute();
-        
-            if (response.isSuccessful()) { 
+
+            if (response.isSuccessful()) {
                 logger.message(String.format("Package published successfully %s", file.getName()));
             }
             else {

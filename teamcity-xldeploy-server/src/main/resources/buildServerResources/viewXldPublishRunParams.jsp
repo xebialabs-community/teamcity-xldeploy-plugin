@@ -4,27 +4,27 @@
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 <jsp:useBean id="constants" class="jetbrains.buildServer.xldeploy.server.XldPublishConstantsBean"/>
 
-<div class="parameter">
+<div styleclass="parameter">
   XL Deploy host: <strong><props:displayValue name="${constants.xldPublishHost}" emptyValue="not specified"/></strong>
 </div>
 
-<div class="parameter">
+<div styleclass="parameter">
   XL Deploy port: <strong><props:displayValue name="${constants.xldPublishPort}" emptyValue="not specified"/></strong>
 </div>
 
-<div class="parameter">
+<div styleclass="parameter">
   XL Deploy username: <strong><props:displayValue name="${constants.xldPublishUsername}" emptyValue="not specified"/></strong>
 </div>
 
-<div class="parameter">
+<div styleclass="parameter">
   XL Deploy password: <strong><props:displayValue name="${constants.xldPublishPassword}" emptyValue="not specified"/></strong>
 </div>
 
-<div class="parameter">
+<div styleclass="parameter">
   Deployment Archive package path: <strong><props:displayValue name="${constants.xldPublishPackagePath}" emptyValue="not specified"/></strong>
 </div>
 
-<div class="parameter">
+<div styleclass="parameter">
   Use HTTPS: <strong><props:displayValue name="${constants.xldPublishHttps}" emptyValue="false"/></strong>
 </div>
 

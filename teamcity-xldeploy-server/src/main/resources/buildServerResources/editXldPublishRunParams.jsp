@@ -12,48 +12,48 @@
   <tr id="xldpublishhost">
     <th><label for="${constants.xldPublishHost}">XL Deploy host: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishHost}" className="longField"/>
-      <span class="error" id="error_${constants.xldPublishHost}"></span>
-      <span class="smallNote">XL Deploy host</span>
+      <span styleclass="error" id="error_${constants.xldPublishHost}"></span>
+      <span styleclass="smallNote">XL Deploy host</span>
     </td>
   </tr>
 
   <tr id="xldpublishport">
     <th><label for="${constants.xldPublishPort}">XL Deploy port: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishPort}" className="longField"/>
-      <span class="error" id="error_${constants.xldPublishPort}"></span>
-      <span class="smallNote">XL Deploy port</span>
+      <span styleclass="error" id="error_${constants.xldPublishPort}"></span>
+      <span styleclass="smallNote">XL Deploy port</span>
     </td>
   </tr>
 
   <tr id="xldpublishusername">
     <th><label for="${constants.xldPublishUsername}">XL Deploy username: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishUsername}" className="longField"/>
-      <span class="error" id="error_${constants.xldPublishUsername}"></span>
-      <span class="smallNote">XL Deploy username</span>
+      <span styleclass="error" id="error_${constants.xldPublishUsername}"></span>
+      <span styleclass="smallNote">XL Deploy username</span>
     </td>
   </tr>
 
   <tr id="xldpublishpassword">
     <th><label for="${constants.xldPublishPassword}">XL Deploy password: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishPassword}" className="longField"/>
-      <span class="error" id="error_${constants.xldPublishPassword}"></span>
-      <span class="smallNote">XL Deploy password</span>
+      <span styleclass="error" id="error_${constants.xldPublishPassword}"></span>
+      <span styleclass="smallNote">XL Deploy password</span>
     </td>
   </tr>
 
   <tr id="xldpublishpackagepath">
     <th><label for="${constants.xldPublishPackagePath}">Package path: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishPackagePath}" className="longField"/>
-      <span class="error" id="error_${constants.xldPublishPackagePath}"></span>
-      <span class="smallNote">Path to .dar file (use %teamcity.build.workingDir% for the build workspace)</span>
+      <span styleclass="error" id="error_${constants.xldPublishPackagePath}"></span>
+      <span styleclass="smallNote">Path to .dar file (use %teamcity.build.workingDir% for the build workspace)</span>
     </td>
   </tr>
 
   <tr id="xlddeployhttps">
     <th><label for="${constants.xldPublishHttps}">Use HTTPS</label></th>
     <td><props:checkboxProperty name="${constants.xldPublishHttps}"/>
-      <span class="error" id="error_${constants.xldPublishHttps}"></span>
-      <span class="smallNote">Use HTTPS in REST API calls to XL Deploy</span>
+      <span styleclass="error" id="error_${constants.xldPublishHttps}"></span>
+      <span styleclass="smallNote">Use HTTPS in REST API calls to XL Deploy</span>
     </td>
   </tr>
 
