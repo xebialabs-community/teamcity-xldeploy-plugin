@@ -29,6 +29,7 @@ public class XldDeployBuildProcess implements BuildProcess {
     OkHttpClient client;
     String host;
     int port;
+    String contextRoot;
     String credential;
     String scheme;
     boolean wait;
@@ -47,6 +48,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         host = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_HOST);
         port = Integer.parseInt(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_PORT));
+        contextRoot = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_CONTEXT_ROOT);
 
         credential = Credentials.basic(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_USERNAME),
                 runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_PASSWORD));
@@ -137,11 +139,18 @@ public class XldDeployBuildProcess implements BuildProcess {
     }
 
     private HttpUrl.Builder getXldBaseUrlBuilder() {
-        return new HttpUrl.Builder()
+        HttpUrl.Builder httpUrlBuilder = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
-            .port(port)
-            .addPathSegment("deployit");
+            .port(port);
+        if (contextRoot == null) {
+            return httpUrlBuilder
+                .addPathSegment("deployit");
+        } else {
+            return httpUrlBuilder
+                .addPathSegment(contextRoot)
+                .addPathSegment("deployit");
+        }
     }
 
     private String determineApplicationId(String applicationName) throws RunBuildException {

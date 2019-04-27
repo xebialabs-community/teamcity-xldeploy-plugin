@@ -25,6 +25,14 @@
     </td>
   </tr>
 
+  <tr id="xlddeploycontextroot">
+    <th><label for="${constants.xldDeployContextRoot}">XL Deploy context root: </label></th>
+    <td><props:textProperty name="${constants.xldDeployContextRoot}" className="longField"/>
+      <span styleclass="error" id="error_${constants.xldDeployContextRoot}"></span>
+      <span styleclass="smallNote">XL Deploy context root</span>
+    </td>
+  </tr>
+
   <tr id="xlddeployusername">
     <th><label for="${constants.xldDeployUsername}">XL Deploy username: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldDeployUsername}" className="longField"/>

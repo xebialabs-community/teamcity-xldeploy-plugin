@@ -16,6 +16,11 @@ public class XldDeployConstantsBean
     return XldDeployConstants.SETTINGS_XLDDEPLOY_PORT;
   }
 
+  public String getXldDeployContextRoot()
+  {
+    return XldDeployConstants.SETTINGS_XLDDEPLOY_CONTEXT_ROOT;
+  }
+
   @NotNull
   public String getXldDeployUsername()
   {

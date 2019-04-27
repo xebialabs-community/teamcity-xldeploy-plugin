@@ -17,6 +17,10 @@
 </div>
 
 <div styleclass="parameter">
+  XL Deploy context root: <strong><props:displayValue name="${constants.xldPackageContextRoot}" emptyValue="not specified"/></strong>
+</div>
+
+<div styleclass="parameter">
   XL Deploy username: <strong><props:displayValue name="${constants.xldPackageUsername}" emptyValue="not specified"/></strong>
 </div>
 

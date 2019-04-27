@@ -49,6 +49,7 @@ public class XldPackageBuildProcess implements BuildProcess {
     OkHttpClient client;
     String host;
     int port;
+    String contextRoot;
     String credential;
     String scheme;
     String applicationName;
@@ -65,6 +66,7 @@ public class XldPackageBuildProcess implements BuildProcess {
         client = new OkHttpClient();
         host = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_HOST);
         port = Integer.parseInt(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_PORT));
+        contextRoot = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_CONTEXT_ROOT);
         credential = Credentials.basic(runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_USERNAME),
                 runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_PASSWORD));
         scheme = runnerParameters.get(XldPackageConstants.SETTINGS_XLDPACKAGE_HTTPS) == null?"http":"https";

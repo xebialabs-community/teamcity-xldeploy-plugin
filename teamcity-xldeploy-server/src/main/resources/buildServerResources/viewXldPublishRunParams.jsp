@@ -13,6 +13,10 @@
 </div>
 
 <div styleclass="parameter">
+  XL Deploy context root: <strong><props:displayValue name="${constants.xldPublishContextRoot}" emptyValue="not specified"/></strong>
+</div>
+
+<div styleclass="parameter">
   XL Deploy username: <strong><props:displayValue name="${constants.xldPublishUsername}" emptyValue="not specified"/></strong>
 </div>
 
@@ -27,5 +31,4 @@
 <div styleclass="parameter">
   Use HTTPS: <strong><props:displayValue name="${constants.xldPublishHttps}" emptyValue="false"/></strong>
 </div>
-
 

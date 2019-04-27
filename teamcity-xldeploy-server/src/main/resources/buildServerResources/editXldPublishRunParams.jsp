@@ -25,6 +25,14 @@
     </td>
   </tr>
 
+  <tr id="xldpublishcontextroot">
+    <th><label for="${constants.xldPublishContextRoot}">XL Deploy context root: </label></th>
+    <td><props:textProperty name="${constants.xldPublishContextRoot}" className="longField"/>
+      <span styleclass="error" id="error_${constants.xldPublishContextRoot}"></span>
+      <span styleclass="smallNote">XL Deploy context root</span>
+    </td>
+  </tr>
+
   <tr id="xldpublishusername">
     <th><label for="${constants.xldPublishUsername}">XL Deploy username: <l:star/></label></th>
     <td><props:textProperty name="${constants.xldPublishUsername}" className="longField"/>

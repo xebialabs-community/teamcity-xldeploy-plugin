@@ -7,6 +7,7 @@ public interface XldPackageConstants
   String RUNNER_DISPLAY_NAME = "XebiaLabs XLD Package";
   String SETTINGS_XLDPACKAGE_HOST = "xldpackage.host";
   String SETTINGS_XLDPACKAGE_PORT = "xldpackage.port";
+  String SETTINGS_XLDPACKAGE_CONTEXT_ROOT = "xldpackage.context.root";
   String SETTINGS_XLDPACKAGE_USERNAME = "xldpackage.username";
   String SETTINGS_XLDPACKAGE_PASSWORD = "xldpackage.password";
   String SETTINGS_XLDPACKAGE_APPLICATION_NAME = "xldpackage.application.name";

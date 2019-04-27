@@ -16,6 +16,11 @@ public class XldPackageConstantsBean
     return XldPackageConstants.SETTINGS_XLDPACKAGE_PORT;
   }
 
+  public String getXldPackageContextRoot()
+  {
+    return XldPackageConstants.SETTINGS_XLDPACKAGE_CONTEXT_ROOT;
+  }
+
   @NotNull
   public String getXldPackageUsername()
   {

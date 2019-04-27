@@ -27,6 +27,7 @@ public class XldPublishBuildProcess implements BuildProcess {
     OkHttpClient client;
     String host;
     int port;
+    String contextRoot;
     String credential;
     String scheme;
 
@@ -41,6 +42,7 @@ public class XldPublishBuildProcess implements BuildProcess {
 
         host = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST);
         port = Integer.parseInt(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
+        contextRoot = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_CONTEXT_ROOT);
 
         credential = Credentials.basic(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_USERNAME),
                 runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PASSWORD));
@@ -86,11 +88,18 @@ public class XldPublishBuildProcess implements BuildProcess {
     }
 
     private HttpUrl.Builder getXldBaseUrlBuilder() {
-        return new HttpUrl.Builder()
+        HttpUrl.Builder httpUrlBuilder = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
-            .port(port)
-            .addPathSegment("deployit");
+            .port(port);
+        if (contextRoot == null) {
+            return httpUrlBuilder
+                .addPathSegment("deployit");
+        } else {
+            return httpUrlBuilder
+                .addPathSegment(contextRoot)
+                .addPathSegment("deployit");
+        }
     }
 
     private void publishPackage (File file) throws RunBuildException {

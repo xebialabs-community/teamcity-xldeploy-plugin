@@ -16,6 +16,11 @@ public class XldPublishConstantsBean
     return XldPublishConstants.SETTINGS_XLDPUBLISH_PORT;
   }
 
+  public String getXldPublishContextRoot()
+  {
+    return XldPublishConstants.SETTINGS_XLDPUBLISH_CONTEXT_ROOT;
+  }
+
   @NotNull
   public String getXldPublishUsername()
   {
