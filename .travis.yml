@@ -12,7 +12,8 @@ deploy:
   provider: releases
   api_key:
     secure: KmtIFUxFUTCB039FVJ5LKQP0CGGTPGEJN+C/J6ia7Mxak5yrhh88CVRQqoAiGl+o1VeOnhdtfKJRXY9GkJuewhTBJaS0qiONT8OaSPAfFLLWShDD6uw6n1ERe/oProIi1s3oJzbZQs0uV/k7y4jGjqbGDLqX6D8THkYjLhXb6EB13YbIY+ykGmAANQKxabyJvz/DC+ZBtzjomwRLIh7DPNIf7u0gQe+871jGOl1RbT3r9lUpNcANw5ZAYHpEjjZTEEEfvmD/e0GOpdZ7ZfeeadR+irlHGLfzTYpJPsio+0CL6H+WUprVYV6AL39Tjkn87CQe+7IPtKq23y9hbyCfmqHXVxr92Ro6Akhqga0c/7JYFuCpsGoXe3gRDlhGBmNXrFYN6r5nbftdDgxFUCz/zr3RfvqFEc6edPx/eLZn8nxNJgmMD718v/gf0t+U8R2qGrEz44wRHl96sBA3wtIxMPXVl5DHhjMcJi6gigaFDhKdSVWK9flShkN7mGHsAgg9H/KaWOseRXfBqOXWsxVpr+cDWFX0Cyy2/eE/Ecy+fRrTj9weVCLF3T/1WyxaxeTy0W3E6gbTC/X0BsYO4NIgpra78PwHe8qjqEo52KTn0yQdH0n6/efu8oDOdpae1m4D0lipsUKrEGxsongB3ifxX6cnDPOfy9e7Q3QQunP3+uM=
-  file: target/teamcity-xldeploy-plugin-1.1.6.zip
+  file_glob: true
+  file: target/*
   skip_cleanup: true
   on:
     all_branches: true
