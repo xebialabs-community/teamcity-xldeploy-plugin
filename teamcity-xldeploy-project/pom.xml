@@ -5,7 +5,7 @@
   <name>XebiaLabs TeamCity XL Deploy Plugin</name>
   <groupId>xebialabs.teamcity.xldeploy</groupId>
   <artifactId>teamcity-xldeploy-plugin</artifactId>
-  <version>1.2.5</version>
+  <version>1.2.6</version>
   <packaging>pom</packaging>
   
   <licenses>
