@@ -5,6 +5,7 @@ import java.lang.InterruptedException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import jetbrains.buildServer.RunBuildException;
@@ -353,10 +354,11 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private JSONObject validate (JSONObject deploymentSpec) throws RunBuildException {
 
+/* Zendesk 7578, JIRA-10909 resolved in XL Deploy 8.6
+
         logger.message("Validate step omitted pending resolution of Zendesk 7587, JIRA DEPL-10909");
         return deploymentSpec;
-
-/* Uncomment when Zendesk 7587, JIRA DEPL-10909 resolved
+*/
 
         HttpUrl httpUrl = getXldBaseUrlBuilder()
                 .addPathSegment("deployment")
@@ -371,6 +373,7 @@ public class XldDeployBuildProcess implements BuildProcess {
                 .url(httpUrl)
                 .header("Authorization", credential)
                 .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
                 .post(requestBody)
                 .build();
 
@@ -380,8 +383,12 @@ public class XldDeployBuildProcess implements BuildProcess {
         try {
             response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) {
-                jsonObject = new JSONObject(response.body().string());
+            if (response.isSuccessful() || response.code() == 400) {
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                } catch (JSONException e) {
+                    throw new RunBuildException(e);
+                }
             } else {
                 throw new IOException("Unexpected response code " + response);
             }
@@ -396,10 +403,14 @@ public class XldDeployBuildProcess implements BuildProcess {
 
         boolean error = false;
 
-        for (Object deployed : jsonObject.getJSONArray("deployeds")) {
-            for (Object validationMessage : ((JSONObject)deployed).getJSONArray("validation-messages")) {
-                error = true;
-                logger.message(((JSONObject)validationMessage).toString();
+        if (jsonObject.keySet().contains("deployeds")) {
+            for (Object deployed : jsonObject.getJSONArray("deployeds")) {
+                if (((JSONObject)deployed).keySet().contains("validation-messages")) {
+                    for (Object validationMessage : ((JSONObject)deployed).getJSONArray("validation-messages")) {
+                        error = true;
+                        logger.message(((JSONObject)validationMessage).toString());
+                    }
+                }
             }
         }
 
@@ -408,7 +419,7 @@ public class XldDeployBuildProcess implements BuildProcess {
         }
 
         return jsonObject;
-*/
+
     }
 
     private String createDeployTask (JSONObject deploymentSpec) throws RunBuildException {

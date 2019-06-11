@@ -46,6 +46,8 @@
 #### Deploy step ####
 
 * Specify Application Name, Version Name, and Enviroment Id.
+* For XL Deploy 8.6.x and higher, use plugin version 1.3.0.  This version performs the validate call for the deployment.
+* For XL Deploy 8.5.x and lower, use plugin version 1.2.6.  This version omits the validate call for the deployment.
 
 ![screenshot of deploy step](images/xlddeploy-config-1.png)
 
