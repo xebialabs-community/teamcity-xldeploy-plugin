@@ -42,9 +42,12 @@ public class XldDeployBuildProcess implements BuildProcess {
         final Map<String, String> runnerParameters = context.getRunnerParameters();
 
         logger = runningBuild.getBuildLogger();
-        logger.progressStarted("Progress started for XldDeployBuildProcess");
+        logger.progressStarted("Progress started for XldDeployBuildProcess (120s timeout)");
 
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder()
+          .readTimeout(120, java.util.concurrent.TimeUnit.SECONDS)
+          .writeTimeout(120, java.util.concurrent.TimeUnit.SECONDS)
+          .build();
 
         host = runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_HOST);
         port = Integer.parseInt(runnerParameters.get(XldDeployConstants.SETTINGS_XLDDEPLOY_PORT));
@@ -353,7 +356,7 @@ public class XldDeployBuildProcess implements BuildProcess {
 
     private JSONObject validate (JSONObject deploymentSpec) throws RunBuildException {
 
-        logger.message("Validate step omitted pending resolution of Zendesk 7587, JIRA DEPL-10909");
+        logger.message("Validate step omitted for XLD version 8.5 and earlier");
         return deploymentSpec;
 
 /* Uncomment when Zendesk 7587, JIRA DEPL-10909 resolved
