@@ -36,9 +36,12 @@ public class XldPublishBuildProcess implements BuildProcess {
         final Map<String, String> runnerParameters = context.getRunnerParameters();
 
         logger = runningBuild.getBuildLogger();
-        logger.progressStarted("Progress started for XldPublishBuildProcess");
+        logger.progressStarted("Progress started for XldPublishBuildProcess (300s timeout)");
 
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder()
+          .readTimeout(300, java.util.concurrent.TimeUnit.SECONDS)
+          .writeTimeout(300, java.util.concurrent.TimeUnit.SECONDS)
+          .build();
 
         host = runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_HOST);
         port = Integer.parseInt(runnerParameters.get(XldPublishConstants.SETTINGS_XLDPUBLISH_PORT));
