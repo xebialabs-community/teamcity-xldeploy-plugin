@@ -1,6 +1,7 @@
 # TeamCity / XL Deploy plugin
 
-[![Build Status][teamcity-xldeploy-plugin-travis-image] ][teamcity-xldeploy-plugin-travis-url]
+[![Build Status][teamcity-xldeploy-plugin-travis-image] [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fxebialabs-community%2Fteamcity-xldeploy-plugin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fxebialabs-community%2Fteamcity-xldeploy-plugin?ref=badge_shield)
+][teamcity-xldeploy-plugin-travis-url]
 [![Build Status][teamcity-xldeploy-plugin-codacy-image] ][teamcity-xldeploy-plugin-codacy-url]
 [![Build Status][teamcity-xldeploy-plugin-code-climate-image] ][teamcity-xldeploy-plugin-code-climate-url]
 [![License: MIT][teamcity-xldeploy-plugin-license-image] ][teamcity-xldeploy-plugin-license-url]
@@ -56,3 +57,7 @@
 ![screenshot of deploy step](images/teamcity-xldeploy-plugin-3.png)
 
 Tested on TeamCity 2018.1.3.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fxebialabs-community%2Fteamcity-xldeploy-plugin.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fxebialabs-community%2Fteamcity-xldeploy-plugin?ref=badge_large)
